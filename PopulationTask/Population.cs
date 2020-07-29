@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace PopulationTask
 {
@@ -24,7 +24,43 @@ namespace PopulationTask
         /// <exception cref="ArgumentOutOfRangeException">Throw if the value of percents is less then 0% or more then 100%.</exception>
         public static int GetYears(int initialPopulation, double percent, int visitors, int currentPopulation)
         {
-            throw new NotImplementedException("You need to implement this method.");
+            int years = 0;
+
+            if (initialPopulation <= 0)
+            {
+                throw new ArgumentException("Initial population cannot be less or equals zero.", nameof(initialPopulation));
+            }
+
+            if (visitors < 0)
+            {
+                throw new ArgumentException("Count of visitors cannot be less zero.", nameof(visitors));
+            }
+
+            if (currentPopulation <= 0)
+            {
+                throw new ArgumentException("Current population cannot be less or equals zero.", nameof(currentPopulation));
+            }
+            
+            if (currentPopulation < initialPopulation)
+            {
+                throw new ArgumentException("Current population cannot be less than initial population.", nameof(currentPopulation));
+            }
+            
+            if (percent < 0 || percent > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(percent), "Value of percents cannot be less then 0% or more then 100%.");
+            }
+            else
+            {
+                double population = (double)initialPopulation;
+                while (population < currentPopulation)
+                {
+                    years++;
+                    population += (population * percent / 100) + visitors;
+                }
+            }
+
+            return years;
         }
     }
 }
